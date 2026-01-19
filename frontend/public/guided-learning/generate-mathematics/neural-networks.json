@@ -1,0 +1,36 @@
+{
+  "title": "Neural Networks",
+  "category": "Generate Mathematics",
+  "content": {
+    "introduction": "Neural networks are computational models inspired by biological neural systems, capable of learning complex patterns from data through interconnected nodes (neurons) organized in layers. These networks form the foundation of deep learning and have revolutionized artificial intelligence, enabling breakthroughs in image recognition, natural language processing, and game playing. A neural network transforms inputs through multiple layers of weighted connections and non-linear activations, learning to approximate complex functions. Understanding the mathematical principles behind forward propagation, backpropagation, and optimization is essential for building effective neural network models.",
+    "chapters": [
+      {
+        "heading": "Perceptron and Forward Propagation",
+        "content": "The fundamental building block is the perceptron (or neuron), which computes a weighted sum of inputs followed by an activation function. For a single neuron, the computation is: z = w₁x₁ + w₂x₂ + ... + wₙxₙ + b = w^T x + b, where w are weights, x are inputs, and b is the bias. The output is then y = σ(z), where σ is an activation function like sigmoid, ReLU, or tanh. In a multi-layer network, forward propagation computes outputs layer by layer. For layer l: z^(l) = W^(l) a^(l-1) + b^(l) and a^(l) = σ(z^(l)), where a^(l-1) is the activation from the previous layer. The network's final output is a^(L), where L is the number of layers. Matrix multiplication enables efficient parallel computation across all neurons in a layer simultaneously, with W^(l) being the weight matrix of dimensions [n^(l) × n^(l-1)].",
+        "formulas": ["z = w^T x + b (single neuron)", "z^(l) = W^(l) a^(l-1) + b^(l) (layer l)", "a^(l) = σ(z^(l)) (activation)", "ReLU: σ(z) = max(0, z), Sigmoid: σ(z) = 1/(1+e^(-z))"]
+      },
+      {
+        "heading": "Loss Functions and Gradient Descent",
+        "content": "Training neural networks involves minimizing a loss function that measures the difference between predictions and true labels. For regression, Mean Squared Error (MSE) is common: L = (1/m) Σ(y_pred - y_true)². For classification, cross-entropy loss is standard: L = -(1/m) Σ[y log(ŷ) + (1-y) log(1-ŷ)] for binary classification. Gradient descent optimizes the loss by iteratively updating weights in the direction of steepest descent: w^(t+1) = w^(t) - α ∇L(w^(t)), where α is the learning rate and ∇L is the gradient. The gradient points in the direction of greatest increase in loss, so moving opposite to it decreases the loss. Variants include momentum (accumulating gradients), Adam (adaptive learning rates), and batch normalization. The challenge is computing gradients efficiently through all layers, solved by backpropagation.",
+        "formulas": ["MSE: L = (1/m) Σ(y_pred - y_true)²", "Cross-entropy: L = -(1/m) Σ[y log(ŷ) + (1-y) log(1-ŷ)]", "Gradient descent: w^(t+1) = w^(t) - α ∇L(w^(t))"]
+      },
+      {
+        "heading": "Backpropagation Algorithm",
+        "content": "Backpropagation efficiently computes gradients for all weights using the chain rule of calculus. The algorithm propagates error signals backward from output to input layers. For the output layer L, the error is: δ^(L) = ∇_a L ⊙ σ'(z^(L)), where ⊙ denotes element-wise multiplication. For hidden layers, the error propagates backward: δ^(l) = ((W^(l+1))^T δ^(l+1)) ⊙ σ'(z^(l)). The gradient for weights is then: ∂L/∂W^(l) = δ^(l) (a^(l-1))^T, and for biases: ∂L/∂b^(l) = δ^(l). This enables computing all gradients in a single backward pass. The chain rule ensures that gradients from later layers are multiplied by local gradients, properly distributing error signals. Backpropagation's efficiency comes from reusing computations across layers and enabling gradient descent updates for all parameters simultaneously.",
+        "formulas": ["Output error: δ^(L) = ∇_a L ⊙ σ'(z^(L))", "Hidden error: δ^(l) = ((W^(l+1))^T δ^(l+1)) ⊙ σ'(z^(l))", "Weight gradient: ∂L/∂W^(l) = δ^(l) (a^(l-1))^T", "Bias gradient: ∂L/∂b^(l) = δ^(l)"]
+      },
+      {
+        "heading": "Architecture Design and Regularization",
+        "content": "Effective neural network design balances model capacity (ability to fit complex patterns) with generalization (performance on unseen data). Key architectural choices include: depth (number of layers), width (neurons per layer), activation functions (ReLU for hidden layers, sigmoid/softmax for outputs), and connectivity patterns (fully connected, convolutional, recurrent). Overfitting is mitigated through regularization techniques: L2 regularization adds a penalty term λΣ||w||² to the loss function, encouraging smaller weights. Dropout randomly sets activations to zero during training with probability p: a_dropout = a ⊙ mask, where mask ~ Bernoulli(1-p). Batch normalization normalizes layer inputs: a_norm = (a - μ)/√(σ² + ε), reducing internal covariate shift. Early stopping monitors validation performance and stops training when it degrades. These techniques enable training deeper, more complex networks that generalize well.",
+        "formulas": ["L2 regularization: L_reg = L + (λ/2)Σ||w||²", "Dropout: a_dropout = a ⊙ mask, mask ~ Bernoulli(1-p)", "Batch norm: a_norm = (a - μ)/√(σ² + ε)"]
+      }
+    ],
+    "conclusion": "Neural networks represent a powerful framework for learning complex mappings from data through interconnected layers of weighted transformations. Through forward propagation, loss minimization via gradient descent, efficient gradient computation via backpropagation, and careful architectural design with regularization, neural networks can approximate virtually any function given sufficient data and capacity. Understanding these mathematical foundations enables practitioners to build, train, and optimize neural networks effectively for diverse applications, from computer vision to natural language understanding.",
+    "keyPoints": [
+      "Neural networks compute weighted sums with non-linear activations layer by layer",
+      "Training minimizes loss functions using gradient descent optimization",
+      "Backpropagation efficiently computes gradients using the chain rule",
+      "Regularization techniques prevent overfitting and improve generalization"
+    ]
+  }
+}

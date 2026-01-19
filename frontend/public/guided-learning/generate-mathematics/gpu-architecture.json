@@ -1,0 +1,36 @@
+{
+  "title": "GPU Architecture",
+  "category": "Generate Mathematics",
+  "content": {
+    "introduction": "Graphics Processing Units (GPUs) have evolved from specialized graphics rendering hardware into powerful parallel computing platforms that accelerate machine learning, scientific computing, and data processing. Modern GPU architecture is designed around massive parallelism, with thousands of processing cores that can execute many operations simultaneously. Understanding GPU architecture is essential for optimizing machine learning training and inference, as neural networks inherently involve large-scale parallel computations. GPUs excel at tasks with high arithmetic intensity and data parallelism, making them the hardware foundation of the deep learning revolution.",
+    "chapters": [
+      {
+        "heading": "SIMD and Parallel Execution Model",
+        "content": "GPUs employ a Single Instruction, Multiple Data (SIMD) execution model where the same instruction operates on multiple data elements simultaneously. This contrasts with CPUs' more complex out-of-order execution optimized for sequential tasks with branching. A GPU consists of multiple Streaming Multiprocessors (SMs), each containing numerous CUDA cores (in NVIDIA GPUs) or Compute Units (in AMD GPUs). These cores are organized into warps (groups of 32 threads) that execute instructions in lockstep. When threads in a warp follow the same execution path, they achieve maximum efficiency. Divergent branches cause serialization, with different execution paths handled sequentially. The parallelism is expressed as: Throughput = Number_of_Cores × Clock_Speed × Instructions_per_Cycle. Modern GPUs like the NVIDIA A100 contain 108 SMs with 6912 CUDA cores total, enabling massive parallel throughput.",
+        "formulas": ["Throughput = Number_of_Cores × Clock_Speed × IPC", "Warp size: 32 threads (NVIDIA) or 64 (AMD Wavefronts)", "Efficiency = Active_Warps / Total_Warps"]
+      },
+      {
+        "heading": "Memory Hierarchy and Bandwidth",
+        "content": "GPU memory architecture is designed for high bandwidth rather than low latency, optimized for throughput over individual access speed. The hierarchy includes global memory (GDDR/HBM), shared memory (on-chip SRAM), registers, and cache hierarchies. Global memory provides large capacity (up to 80GB in high-end GPUs) but higher latency. Shared memory is smaller (typically 48-164KB per SM) but offers much lower latency and higher bandwidth. Optimal performance requires maximizing data reuse in faster memory tiers. The memory bandwidth equation shows: Effective_Bandwidth = (Bytes_Read + Bytes_Written) / Time. Modern GPUs achieve 1-3 TB/s memory bandwidth using High Bandwidth Memory (HBM) technology. Memory coalescing—accessing consecutive memory locations by threads in a warp—enables efficient parallel memory operations, achieving near-peak bandwidth when accesses are aligned and sequential.",
+        "formulas": ["Effective_Bandwidth = (Bytes_Read + Bytes_Written) / Time", "Memory efficiency = Coalesced_Accesses / Total_Accesses", "HBM bandwidth: 1-3 TB/s"]
+      },
+      {
+        "heading": "Tensor Cores and Matrix Operations",
+        "content": "Modern GPUs include specialized Tensor Cores optimized for mixed-precision matrix multiplication operations central to deep learning. Tensor Cores perform fused multiply-add operations on 4×4 or larger matrix tiles, significantly accelerating training and inference. The operation computes: D = A × B + C, where A, B are input matrices and C is a bias matrix. Tensor Cores support mixed precision (FP16, BF16, INT8, INT4) to increase throughput while maintaining acceptable numerical precision. This enables 2-4× performance improvements for matrix operations compared to standard CUDA cores. The theoretical peak performance for tensor operations is measured in TFLOPs (Tera Floating Point Operations per Second). For example, an A100 GPU provides 312 TFLOPs for FP16 tensor operations, enabling training of large models that would be infeasible on CPUs.",
+        "formulas": ["D = A × B + C (Tensor Core operation)", "Peak TFLOPs = 2 × Tensor_Cores × Clock × Operations_per_Core", "A100: 312 TFLOPs (FP16), 624 TFLOPs (INT8)"]
+      },
+      {
+        "heading": "Optimization Strategies and Workload Characteristics",
+        "content": "Efficient GPU utilization requires workloads with high parallelism, regular memory access patterns, and minimal synchronization. Key optimization strategies include: maximizing occupancy (number of concurrent warps per SM), ensuring memory coalescing for global memory accesses, using shared memory for frequently accessed data, minimizing register usage to allow more active threads, and leveraging tensor cores for matrix operations. The occupancy metric is: Occupancy = Active_Threads / Maximum_Threads_per_SM. High occupancy helps hide memory latency through context switching between warps. For deep learning specifically, operations like convolutions and matrix multiplications map naturally to GPU parallelism, with frameworks like CUDA and cuDNN providing optimized implementations. Batch processing increases arithmetic intensity, improving GPU utilization by providing more parallel work.",
+        "formulas": ["Occupancy = Active_Threads / Max_Threads_per_SM", "Arithmetic_Intensity = Operations / Bytes_Transferred", "Optimal occupancy: typically 50-75%"]
+      }
+    ],
+    "conclusion": "GPU architecture's massive parallelism and high memory bandwidth make it the ideal platform for accelerating machine learning and scientific computing. Through SIMD execution, hierarchical memory, specialized tensor cores, and optimized data access patterns, GPUs achieve orders-of-magnitude speedups over CPUs for parallel workloads. Understanding GPU architecture enables developers to write efficient code, choose appropriate hardware, and optimize deep learning training and inference pipelines for maximum performance.",
+    "keyPoints": [
+      "GPUs use SIMD parallelism with thousands of cores executing operations simultaneously",
+      "Memory hierarchy prioritizes bandwidth over latency, requiring coalesced access patterns",
+      "Tensor Cores accelerate matrix operations essential for deep learning",
+      "Optimal GPU utilization requires high parallelism and regular memory access patterns"
+    ]
+  }
+}

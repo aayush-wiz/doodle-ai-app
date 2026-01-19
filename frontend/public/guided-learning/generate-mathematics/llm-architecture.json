@@ -1,0 +1,36 @@
+{
+  "title": "LLM Architecture",
+  "category": "Generate Mathematics",
+  "content": {
+    "introduction": "Large Language Models (LLMs) represent a breakthrough in natural language processing, capable of understanding and generating human-like text. These models, exemplified by GPT, BERT, and their successors, are built on transformer architectures that process text through self-attention mechanisms. LLMs are trained on vast corpora of text data, learning statistical patterns and linguistic structures that enable them to perform tasks from translation to code generation. Understanding LLM architecture is essential for grasping how modern AI systems achieve such remarkable language understanding and generation capabilities.",
+    "chapters": [
+      {
+        "heading": "Transformer Architecture Foundation",
+        "content": "LLMs are built on the transformer architecture, introduced in the landmark paper 'Attention Is All You Need.' The core innovation is the self-attention mechanism, which allows the model to weigh the importance of different words in a sequence when processing each position. Unlike previous recurrent models that processed text sequentially, transformers process entire sequences in parallel, dramatically accelerating training. The architecture consists of an encoder-decoder structure (or decoder-only for generative models like GPT). Each layer contains multi-head self-attention and feed-forward neural networks, with residual connections and layer normalization for stable training. The attention mechanism computes: Attention(Q, K, V) = softmax(QK^T / √d_k)V, where Q (queries), K (keys), and V (values) are learned representations that help the model focus on relevant parts of the input.",
+        "formulas": ["Attention(Q, K, V) = softmax(QK^T / √d_k)V", "MultiHead = Concat(head_1, ..., head_h)W^O where head_i = Attention(QW_i^Q, KW_i^K, VW_i^V)"]
+      },
+      {
+        "heading": "Pre-training and Scaling",
+        "content": "LLMs undergo a two-phase training process: pre-training on large unlabeled text corpora followed by fine-tuning or prompt engineering for specific tasks. During pre-training, models learn to predict the next word in a sequence (autoregressive language modeling) or reconstruct masked words (bidirectional context understanding). This unsupervised learning phase ingests billions or trillions of tokens, learning rich representations of language, facts, reasoning patterns, and even code. The scaling laws reveal that model performance improves predictably with increased parameters, training data, and computational resources. Empirical studies show that loss decreases as L ∝ (N^{-α} + D^{-β} + C^{-γ})^{-1}, where N is parameters, D is data size, and C is compute. This scaling relationship has driven the trend toward increasingly large models.",
+        "formulas": ["L ∝ (N^{-α} + D^{-β} + C^{-γ})^{-1}", "P(w_t | w_{<t}) = softmax(W · h_t + b)"]
+      },
+      {
+        "heading": "Tokenization and Embeddings",
+        "content": "Text processing in LLMs begins with tokenization, where input text is split into subword units using algorithms like Byte-Pair Encoding (BPE) or SentencePiece. This allows models to handle rare words and maintain vocabulary efficiency. Each token is then mapped to a dense vector representation through learned embeddings. These embeddings capture semantic and syntactic relationships: similar words have similar vectors. The embedding dimension (typically 768 to 4096 in modern LLMs) determines the model's capacity to represent linguistic information. Positional encodings are added to embeddings to convey sequence order, using either learned or sinusoidal positional embeddings. The input representation becomes: Input = TokenEmbedding + PositionEmbedding, enabling the model to process sequences of arbitrary length while understanding word positions.",
+        "formulas": ["Input = TokenEmbedding + PositionEmbedding", "Embedding dimension: d_model (typically 768-4096)"]
+      },
+      {
+        "heading": "Attention Mechanisms and Context Understanding",
+        "content": "The attention mechanism is the engine of LLM understanding. It computes how much each word should attend to other words in the sequence, creating rich contextual representations. Self-attention allows words to interact with all other words simultaneously, regardless of distance, solving the long-range dependency problem that plagued earlier recurrent models. In decoder-only models, causal masking ensures tokens only attend to previous positions, maintaining autoregressive generation. The attention scores form a probability distribution over the sequence, with higher scores indicating stronger relevance. This enables the model to track relationships like pronoun antecedents, subject-verb agreements, and long-range semantic dependencies that span entire paragraphs or documents.",
+        "formulas": ["Attention_scores = softmax(QK^T / √d_k)", "Causal_mask: attend only to positions ≤ current position"]
+      }
+    ],
+    "conclusion": "LLM architecture represents a fundamental shift in how machines process and generate language. Through transformer-based attention mechanisms, extensive pre-training on vast text corpora, and strategic scaling, these models achieve remarkable language understanding and generation. The architecture's parallel processing, self-attention mechanisms, and learned embeddings create powerful representations that capture linguistic structure, factual knowledge, and even reasoning patterns. As LLMs continue to evolve, understanding their architecture becomes increasingly important for leveraging their capabilities effectively.",
+    "keyPoints": [
+      "LLMs use transformer architecture with self-attention mechanisms",
+      "Pre-training on large text corpora teaches language patterns and knowledge",
+      "Tokenization and embeddings convert text to numerical representations",
+      "Attention mechanisms enable understanding of long-range dependencies"
+    ]
+  }
+}

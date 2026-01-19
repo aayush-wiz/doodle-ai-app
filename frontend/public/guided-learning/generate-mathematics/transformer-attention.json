@@ -1,0 +1,36 @@
+{
+  "title": "Transformer Attention",
+  "category": "Generate Mathematics",
+  "content": {
+    "introduction": "Attention mechanisms form the core innovation behind transformer architectures, revolutionizing natural language processing and machine learning. The attention mechanism allows models to focus on relevant parts of the input when processing each position, creating dynamic, context-aware representations. Unlike fixed-weight connections in traditional neural networks, attention weights are computed dynamically based on the input, enabling models to adaptively attend to the most relevant information. This mechanism solved critical limitations in sequence processing and enabled the development of powerful models like BERT, GPT, and modern LLMs.",
+    "chapters": [
+      {
+        "heading": "Scaled Dot-Product Attention",
+        "content": "Scaled dot-product attention is the fundamental building block of transformer attention. It computes attention as a weighted sum of value vectors, where weights are determined by the similarity between query and key vectors. The formula is: Attention(Q, K, V) = softmax(QK^T / √d_k)V. Here, Q (queries), K (keys), and V (values) are matrices derived from the input through learned linear transformations. The dot product QK^T computes similarity scores between all query-key pairs. Dividing by √d_k (where d_k is the dimension of keys) prevents the dot products from growing too large and causing vanishing gradients in the softmax function. The softmax converts raw scores into a probability distribution over all positions, and the final weighted sum produces context-aware representations. This mechanism enables each position to attend to all other positions in parallel, creating rich contextual understanding.",
+        "formulas": ["Attention(Q, K, V) = softmax(QK^T / √d_k)V", "scores_{ij} = Q_i · K_j^T / √d_k", "attention_weights = softmax(scores)"]
+      },
+      {
+        "heading": "Multi-Head Attention",
+        "content": "Multi-head attention extends scaled dot-product attention by running multiple attention mechanisms in parallel, each with different learned projections. This allows the model to attend to different types of information simultaneously—for example, one head might focus on syntactic relationships while another captures semantic similarities. The multi-head mechanism is computed as: MultiHead(Q, K, V) = Concat(head_1, ..., head_h)W^O, where each head_i = Attention(QW_i^Q, KW_i^K, VW_i^V). The different learned weight matrices W_i^Q, W_i^K, W_i^V enable each head to learn distinct attention patterns. After concatenation, a final linear projection W^O combines the information from all heads. Typical configurations use 8-16 attention heads, allowing the model to capture diverse relationships and representational subspaces in parallel.",
+        "formulas": ["MultiHead(Q, K, V) = Concat(head_1, ..., head_h)W^O", "head_i = Attention(QW_i^Q, KW_i^K, VW_i^V)", "Number of heads: h (typically 8-16)"]
+      },
+      {
+        "heading": "Self-Attention vs Cross-Attention",
+        "content": "Self-attention occurs when queries, keys, and values all come from the same sequence, enabling the model to relate different positions within the input. In encoder layers, self-attention allows each word to attend to all words in the sentence, capturing bidirectional context. Cross-attention (or encoder-decoder attention) uses queries from one sequence (decoder) and keys/values from another (encoder), enabling the decoder to focus on relevant parts of the input when generating output. This is crucial for tasks like translation where the model must align source and target sequences. The mathematical formulation remains the same, but the origin of Q, K, V differs. Self-attention: Q, K, V ∈ R^{n×d} from same sequence. Cross-attention: Q ∈ R^{m×d} from decoder, K, V ∈ R^{n×d} from encoder, where m and n are sequence lengths.",
+        "formulas": ["Self-attention: Q, K, V from same sequence", "Cross-attention: Q from decoder, K, V from encoder"]
+      },
+      {
+        "heading": "Masking and Causal Attention",
+        "content": "Causal (or masked) attention restricts each position to attend only to previous positions and itself, maintaining the autoregressive property required for generative models. The mask is applied before softmax by setting attention scores to negative infinity for future positions: scores_masked = scores ⊙ mask, where mask_{ij} = 0 if i < j else -∞. After softmax, these positions receive zero attention weights. This ensures that during training and inference, predictions at position i depend only on positions ≤ i, preventing information leakage from future tokens. Causal attention is essential for language modeling tasks where models predict the next token sequentially. The mask creates a triangular attention pattern, allowing parallel training through efficient matrix operations while maintaining causal constraints.",
+        "formulas": ["mask_{ij} = 0 if i ≥ j else -∞", "scores_masked = scores + mask (before softmax)"]
+      }
+    ],
+    "conclusion": "Transformer attention mechanisms represent a fundamental breakthrough in sequence modeling, enabling parallel processing while capturing complex contextual relationships. Through scaled dot-product attention, multi-head architectures, and strategic masking, transformers achieve both computational efficiency and representational power. The ability to dynamically attend to relevant information across arbitrary distances addresses critical limitations of previous architectures, enabling the development of state-of-the-art models across NLP, computer vision, and beyond.",
+    "keyPoints": [
+      "Scaled dot-product attention computes dynamic, context-aware representations",
+      "Multi-head attention captures diverse relationships in parallel",
+      "Self-attention relates positions within a sequence; cross-attention connects sequences",
+      "Causal masking enables autoregressive generation while maintaining parallel training"
+    ]
+  }
+}

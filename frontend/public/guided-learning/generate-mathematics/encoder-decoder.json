@@ -1,0 +1,36 @@
+{
+  "title": "Encoder-Decoder",
+  "category": "Generate Mathematics",
+  "content": {
+    "introduction": "Encoder-decoder architectures are fundamental neural network designs for sequence-to-sequence tasks like machine translation, text summarization, and image captioning. These models consist of two main components: an encoder that transforms input sequences into dense representations (context vectors), and a decoder that generates output sequences from these representations. The architecture addresses the challenge of mapping variable-length input sequences to variable-length output sequences, enabling models to understand input context and generate appropriate outputs. Understanding encoder-decoder principles is essential for working with modern sequence models and transformer architectures.",
+    "chapters": [
+      {
+        "heading": "Architecture Overview and Context Representation",
+        "content": "The encoder processes input sequences (x₁, x₂, ..., xₙ) and produces a fixed-size context vector c that captures the semantic information of the entire input. For recurrent encoders, the hidden states evolve as: h_t = f(x_t, h_{t-1}), where f is a recurrent function (LSTM or GRU cell). The final hidden state or a combination of all hidden states forms the context: c = q(h₁, h₂, ..., hₙ), where q might be the last hidden state hₙ or an attention-weighted combination. The decoder then generates output sequences (y₁, y₂, ..., y_m) conditioned on this context: P(y₁, ..., y_m | x₁, ..., xₙ) = Π(t=1 to m) P(y_t | y_{<t}, c). The decoder maintains its own hidden state s_t that evolves based on previous outputs and the context vector, enabling autoregressive generation where each output depends on previous outputs and the input context.",
+        "formulas": ["Encoder: h_t = f(x_t, h_{t-1}), c = q(h₁, ..., hₙ)", "Decoder: P(y₁, ..., y_m | x) = Π(t=1 to m) P(y_t | y_{<t}, c)", "s_t = g(y_{t-1}, s_{t-1}, c)"]
+      },
+      {
+        "heading": "Attention Mechanism Integration",
+        "content": "Early encoder-decoder models used a single context vector c, creating an information bottleneck where all input information must be compressed into a fixed-size representation. Attention mechanisms solve this by allowing the decoder to dynamically focus on different parts of the input sequence when generating each output token. Instead of using a single c, attention computes context vectors c_t for each decoder step: c_t = Σ(i=1 to n) α_{ti} h_i, where attention weights α_{ti} = exp(e_{ti}) / Σ(j=1 to n) exp(e_{tj}). The energy scores e_{ti} measure alignment between decoder state s_{t-1} and encoder states h_i: e_{ti} = a(s_{t-1}, h_i), where a is an alignment function (often a learned neural network). This enables the model to attend to relevant input positions when generating each output, dramatically improving performance on long sequences and complex tasks.",
+        "formulas": ["Context: c_t = Σ(i=1 to n) α_{ti} h_i", "Attention weights: α_{ti} = softmax(e_{ti}) = exp(e_{ti}) / Σ(j) exp(e_{tj})", "Energy: e_{ti} = a(s_{t-1}, h_i)"]
+      },
+      {
+        "heading": "Transformer-Based Encoder-Decoder",
+        "content": "Modern transformer architectures replace recurrent components with self-attention and cross-attention mechanisms, enabling parallel processing and better handling of long-range dependencies. The transformer encoder uses self-attention to process inputs: each position attends to all positions in the input sequence. The decoder uses both self-attention (masked to prevent attending to future positions) and cross-attention to the encoder outputs. The attention mechanism is computed as: Attention(Q, K, V) = softmax(QK^T / √d_k)V. In the decoder, queries come from decoder states, while keys and values come from encoder outputs in cross-attention layers. This architecture eliminates sequential dependencies in encoding, allows parallel training, and provides direct connections between any input and output positions. Transformers have become the dominant architecture for encoder-decoder tasks, forming the basis of models like BERT, GPT, and T5.",
+        "formulas": ["Attention(Q, K, V) = softmax(QK^T / √d_k)V", "Cross-attention: Q from decoder, K, V from encoder", "Encoder self-attention: Q, K, V all from input"]
+      },
+      {
+        "heading": "Training and Inference Strategies",
+        "content": "Training encoder-decoder models uses teacher forcing, where during training the decoder receives ground truth previous tokens y_{t-1} rather than its own predictions, enabling parallel processing of all positions. The loss is computed as: L = -(1/m) Σ(t=1 to m) log P(y_t | y_{<t}, c, x). During inference (generation), the model operates autoregressively: at each step, it generates the next token y_t = argmax P(y_t | y_{<t}, c, x), then uses this prediction as input for the next step. Beam search improves generation quality by maintaining multiple hypotheses and exploring high-probability paths: at each step, it keeps the top-k candidate sequences instead of just the single best token. Length normalization prevents bias toward shorter sequences: score = (1/|y|^α) log P(y | x), where α is a length penalty hyperparameter. These strategies balance generation quality, diversity, and computational efficiency.",
+        "formulas": ["Training loss: L = -(1/m) Σ(t=1 to m) log P(y_t | y_{<t}, c, x)", "Beam search: maintains top-k sequences", "Length norm: score = (1/|y|^α) log P(y | x)"]
+      }
+    ],
+    "conclusion": "Encoder-decoder architectures provide a powerful framework for sequence-to-sequence learning, enabling models to understand input context and generate appropriate outputs. Through attention mechanisms that dynamically focus on relevant input positions, transformer-based implementations, and strategic training and inference techniques, encoder-decoder models achieve state-of-the-art performance on tasks from translation to summarization. Understanding these architectural principles and training strategies is essential for building effective sequence models and leveraging modern transformer architectures.",
+    "keyPoints": [
+      "Encoder transforms input sequences into context representations; decoder generates outputs from context",
+      "Attention mechanisms allow dynamic focus on relevant input positions during generation",
+      "Transformer architectures use self-attention and cross-attention instead of recurrent components",
+      "Teacher forcing enables parallel training; autoregressive generation with beam search improves inference"
+    ]
+  }
+}

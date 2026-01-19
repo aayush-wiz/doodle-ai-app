@@ -1,0 +1,36 @@
+{
+  "title": "K-Means Clustering",
+  "category": "Generate Mathematics",
+  "content": {
+    "introduction": "K-Means clustering is a fundamental unsupervised learning algorithm that partitions data into k distinct groups based on similarity. It's one of the most widely used clustering algorithms due to its simplicity, efficiency, and interpretability. The algorithm groups data points so that points within each cluster are more similar to each other than to points in other clusters. K-Means is particularly valuable for data exploration, customer segmentation, image compression, and feature engineering. Understanding its mathematical foundation and optimization process is essential for applying it effectively to real-world problems.",
+    "chapters": [
+      {
+        "heading": "Mathematical Formulation",
+        "content": "K-Means minimizes the within-cluster sum of squares (WCSS), also known as inertia or distortion. The objective function is: J = Σ(i=1 to k) Σ(x ∈ C_i) ||x - μ_i||², where k is the number of clusters, C_i is the i-th cluster, μ_i is the centroid of cluster i, and ||x - μ_i||² is the squared Euclidean distance from data point x to its cluster centroid. The algorithm aims to find optimal centroids μ_1, μ_2, ..., μ_k that minimize this objective. This is an NP-hard optimization problem, so K-Means uses an iterative approximation algorithm called Lloyd's algorithm. The algorithm alternates between two steps: assignment (assigning each point to the nearest centroid) and update (recalculating centroids as the mean of assigned points), until convergence when centroids stabilize.",
+        "formulas": ["J = Σ(i=1 to k) Σ(x ∈ C_i) ||x - μ_i||²", "μ_i = (1/|C_i|) Σ(x ∈ C_i) x", "Distance: d(x, μ) = √(Σ(x_j - μ_j)²)"]
+      },
+      {
+        "heading": "Algorithm Steps and Convergence",
+        "content": "The K-Means algorithm proceeds through initialization and iteration phases. Initialization selects k initial centroids, typically using random selection, k-means++ (intelligent seeding), or random data points. The iterative phase repeats two steps: (1) Assignment: assign each data point x_j to cluster C_i if i = argmin||x_j - μ_i||², choosing the cluster with the nearest centroid. (2) Update: recalculate each centroid as μ_i = (1/|C_i|) Σ(x ∈ C_i) x, the mean of all points in cluster C_i. The algorithm terminates when centroids no longer change significantly (convergence) or when a maximum iteration limit is reached. Convergence is typically measured as ||μ^(t) - μ^(t-1)|| < ε, where ε is a small threshold. K-Means guarantees convergence to a local minimum, but the quality depends on initialization, often requiring multiple random starts.",
+        "formulas": ["Assignment: i = argmin||x_j - μ_i||²", "Update: μ_i^(t+1) = (1/|C_i|) Σ(x ∈ C_i) x", "Convergence: ||μ^(t) - μ^(t-1)|| < ε"]
+      },
+      {
+        "heading": "Choosing the Optimal K Value",
+        "content": "Determining the optimal number of clusters k is a critical challenge in K-Means. Several methods help evaluate different k values: (1) Elbow Method: plot WCSS (inertia) against k and look for an 'elbow' where the rate of decrease slows significantly. The formula is WCSS(k) = Σ(i=1 to k) Σ(x ∈ C_i) ||x - μ_i||². (2) Silhouette Score: measures how similar each point is to its own cluster versus other clusters, ranging from -1 to 1. Higher scores indicate better clustering. The formula is s(i) = (b(i) - a(i)) / max(a(i), b(i)), where a(i) is the mean intra-cluster distance and b(i) is the mean nearest-cluster distance. (3) Gap Statistic: compares the total within intra-cluster variation for different k values against a null reference distribution. Domain knowledge and interpretability also guide k selection for practical applications.",
+        "formulas": ["WCSS(k) = Σ(i=1 to k) Σ(x ∈ C_i) ||x - μ_i||²", "Silhouette: s(i) = (b(i) - a(i)) / max(a(i), b(i))", "Optimal k minimizes WCSS while maximizing interpretability"]
+      },
+      {
+        "heading": "Limitations and Variations",
+        "content": "K-Means has several limitations: it assumes clusters are spherical and equally sized, struggles with non-linear cluster boundaries, is sensitive to outliers and initialization, and requires k to be specified in advance. Variations address these limitations: K-Medoids (PAM) uses actual data points as centroids, reducing outlier sensitivity. Fuzzy C-Means assigns probabilistic membership instead of hard assignments. Kernel K-Means enables non-linear cluster boundaries through kernel transformations. Mini-batch K-Means uses random samples for faster computation on large datasets. Understanding these limitations and alternatives helps choose the appropriate clustering approach for specific data characteristics and application requirements.",
+        "formulas": ["K-Medoids: uses actual data points as centroids", "Fuzzy membership: Σ(i=1 to k) u_ij = 1, where u_ij is membership degree"]
+      }
+    ],
+    "conclusion": "K-Means clustering provides a powerful yet simple approach to discovering patterns in unlabeled data. Through its mathematical foundation of minimizing within-cluster variance, iterative optimization, and various evaluation techniques, K-Means enables effective data segmentation across diverse applications. While it has limitations regarding cluster shape assumptions and initialization sensitivity, understanding these constraints and available variations allows practitioners to apply clustering effectively. The algorithm's combination of mathematical rigor, computational efficiency, and interpretability makes it a cornerstone of unsupervised learning.",
+    "keyPoints": [
+      "K-Means minimizes within-cluster sum of squares through iterative centroid updates",
+      "The algorithm alternates between assigning points to nearest centroids and recalculating centroids",
+      "Optimal k can be determined using elbow method, silhouette score, or gap statistic",
+      "Limitations include spherical cluster assumptions and sensitivity to initialization"
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+app = "doodle-ai-worker-gen"
+primary_region = "iad"
+
+[build]
+  dockerfile = "worker.Dockerfile"
+
+# No HTTP service - this is a worker that runs once and exits
+# Machines are created via API with auto_destroy=true
+
+[[vm]]
+  memory = "8gb"
+  cpu_kind = "performance"
+  cpus = 1

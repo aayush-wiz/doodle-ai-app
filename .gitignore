@@ -1,0 +1,29 @@
+# Environment variables
+.env
+backend/.env
+frontend/.env
+
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+
+# System
+.DS_Store
+
+# Video and Audio artifacts
+*.mp4
+!frontend/public/video/*.mp4
+!frontend/public/training_demos/*.mp4
+!frontend/public/cartoon/*.mp4
+*.mp3
+*.wav
+topic_videos_v7_4/
+backend/topic_videos_v7_4/
+backend/SOTA/topic_videos_v7_4/
+SOTA/topic_videos_v7_4/
+backend/videos/
+videos/
+
+# Docker/Fly
+.fly/
